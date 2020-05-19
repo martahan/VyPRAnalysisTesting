@@ -24,12 +24,7 @@ In order to run the tests, clone this repository and clone VyPR, VyPRServer and 
 
 ``rm verdicts.db``
 
-You will need to run the server side in a separate terminal window with
 
-``cd VyPRServer ``
-
-``python run_service.py --port 9001``
-
-Run the test script back in the original terminal
+Finally, run the test script as:
 
 ``python test_script.py``
