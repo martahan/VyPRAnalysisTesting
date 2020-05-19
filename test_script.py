@@ -6,7 +6,7 @@ from time import sleep
 
 """ NOTES
 - do we need to test repr methods?
-- don't forget to test the global functions such as list_functions()
+- don't forget to test the path reconstruction functions, global functions
 """
 
 class test_server_setup(unittest.TestCase):
@@ -26,6 +26,7 @@ class test_function_methods(unittest.TestCase):
 
     def setUp(self):
         va.set_server("http://localhost:9001/")
+        va.set_monitored_service_path('/vypr/VyPRAnalysisTesting/')
 
     def test_init(self):
         self.assertIsInstance(
@@ -66,7 +67,8 @@ class test_function_methods(unittest.TestCase):
 
         self.assertEqual(len(va.Function(4, "fake_name").get_calls()), 0)
 
-    #TODO def test_get_scfg(self)
+    def test_get_scfg(self):
+        self.assertIsInstance(va.function(3).get_scfg(), VyPR.SCFG.construction.CFG)
 
     def test_get_bindings(self):
         self.assertEqual(len(va.function(1).get_bindings()), 0)
@@ -259,7 +261,17 @@ class test_assignment_methods(unittest.TestCase):
     def test_init(self):
         with self.assertRaises(ValueError): va.Assignment(1)
 
+class test_global_methods(unittest.TestCase):
+    def setUp(self):
+        va.set_server("http://localhost:9001/")
+    def test_list_function(self):
+        self.assertEqual(len(va.list_functions()), 3)
+        for i in range(2):
+            self.assertIsInstance(va.list_functions()[i], va.Function)
+    #def test_list_test_data(self):
+
 if __name__ == "__main__":
-    va.prepare("verdicts.db", 9001)
-    unittest.main()
+    va.prepare("verdicts.db", 9001, True)
+#    va.set_monitored_service_path('/vypr/VyPRAnalysisTesting/')
+    unittest.main(exit=False)
     va.teardown()
