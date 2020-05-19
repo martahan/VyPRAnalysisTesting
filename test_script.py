@@ -3,6 +3,7 @@ import VyPR
 import unittest
 from time import sleep
 
+
 """ NOTES
 - do we need to test repr methods?
 - don't forget to test the global functions such as list_functions()
@@ -11,7 +12,6 @@ from time import sleep
 class test_server_setup(unittest.TestCase):
     def setUp(self):
         va.prepare("verdicts.db")
-        #sleep(1)
 
     def test_connection(self):
         va.set_server("http://localhost:9002/")
@@ -259,5 +259,7 @@ class test_assignment_methods(unittest.TestCase):
     def test_init(self):
         with self.assertRaises(ValueError): va.Assignment(1)
 
-
-unittest.main()
+if __name__ == "__main__":
+    va.prepare("verdicts.db", 9001)
+    unittest.main()
+    va.teardown()
