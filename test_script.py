@@ -129,9 +129,8 @@ class test_binding_methods(unittest.TestCase):
 
         self.assertEqual(len(va.binding(function=3, binding_statement_lines=42)), 2)
         self.assertIsInstance(va.binding(function=3, binding_statement_lines=42)[0], va.Binding)
-        self.assertEqual(len(va.binding(function=3, binding_statement_lines=[104, 117])), 2)
-        self.assertIsInstance(va.binding(function=3, binding_statement_lines=[104,117])[0], va.Binding)
-
+        self.assertEqual(len(va.binding(function=3, binding_statement_lines=[104,42])), 1)
+        self.assertIsInstance(va.binding(function=3, binding_statement_lines=[104,42])[0], va.Binding)
         with self.assertRaises(Exception): va.binding(binding_statement_lines=42)
 
     def test_get_verdicts(self):
