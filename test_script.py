@@ -127,6 +127,12 @@ class test_binding_methods(unittest.TestCase):
 
         with self.assertRaises(Exception): va.binding(property_hash="437efac7d4163aeccc48140fadf6b071dc26e31d")
 
+        self.assertEqual(len(va.binding(function=3, binding_statement_lines=42)), 2)
+        self.assertIsInstance(va.binding(function=3, binding_statement_lines=42)[0], va.Binding)
+        self.assertEqual(len(va.binding(function=3, binding_statement_lines=[104, 117])), 2)
+        self.assertIsInstance(va.binding(function=3, binding_statement_lines=[104,117])[0], va.Binding)
+
+        with self.assertRaises(Exception): va.binding(binding_statement_lines=42)
 
     def test_get_verdicts(self):
         self.assertEqual(len(va.binding(1).get_verdicts()), 4000)
@@ -164,6 +170,11 @@ class test_function_call_methods(unittest.TestCase):
         self.assertEqual(len(va.function_call(6).get_verdicts(value=False, property = "f514c0902a441d6c2bc005fd69c5b14b1ddb5dd6")), 2)
         self.assertIsInstance(va.function_call(6).get_verdicts(value=False, property = "f514c0902a441d6c2bc005fd69c5b14b1ddb5dd6")[0], va.Verdict)
 
+        self.assertEqual(len(va.function_call(6).get_verdicts(binding=3)), 1)
+        self.assertEqual(va.function_call(6).get_verdicts(binding=3)[0].binding, 3)
+        self.assertIsInstance(va.function_call(6).get_verdicts(binding=3)[0], va.Verdict)
+        self.assertEqual(va.function_call(6).get_verdicts(binding=1), [])
+        with self.assertRaises(ValueError): va.function_call(6).get_verdicts(binding="wrong_type")
 
     def test_get_observations(self):
         self.assertEqual(len(va.function_call(2).get_observations()),1)
